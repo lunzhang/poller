@@ -5,7 +5,6 @@ var io = require('socket.io')(server);
 var path = require('path');
 var port = process.env.PORT || 80;
 
-
 app.use('/public', express.static(__dirname + '/public'));
 app.set('port', (port));
 

@@ -6,8 +6,9 @@ import { Router, Route, hashHistory,Redirect } from 'react-router';
 import { userLogin, newUser } from './actions.js';
 import store from './store.js';
 import Main from './components/main.js';
-import Home from './components/home.js';
+import Profile from './components/profile.js';
 import Login from './components/login.js';
+import Setting from './components/settings.js';
 
 // init Facebook
 window.fbAsyncInit = function() {
@@ -47,7 +48,8 @@ render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path="/" component={Main}>
-        <Route path="/home" component={Home} />
+        <Route path="/u/*" component={Profile} onEnter={authLogin}/>
+        <Route path="/settings" component={Setting} onEnter={authLogin}/>
         <Route path="/login" component={Login} onEnter={enterLogin}/>
       </Route>
       <Redirect from="*" to="/"/>
@@ -55,6 +57,16 @@ render(
   </Provider>,
   document.getElementById('app')
 );
+
+//redirect if user not login
+function authLogin(nextState,replace){
+  let { user } = store.getState();
+  if(!user.loggedIn){
+      replace({
+        pathname:'/'
+      });
+  }
+};
 
 //redirect if user already login
 function enterLogin(nextState,replace){

@@ -20,10 +20,10 @@ class Main extends Component{
 
   render(){
     return (
-      <div>
+      <div id="main">
         <nav id="navbar" className="navbar navbar-inverse navbar-fixed-top">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/home">Poller</Link>
+            <Link className="navbar-brand" to="/">Poller</Link>
             <div className="navbar-header">
               <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
               <span className="sr-only">Toggle navigation</span>
@@ -40,7 +40,8 @@ class Main extends Component{
                   <div className="profile">
                     <img className="profile-pic" src={this.props.user.pictureURL} data-toggle="dropdown"/>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <Link className="dropdown-item" to="/profile">Profile</Link>
+                      <Link className="dropdown-item" to={"/u/"+this.props.user.id}>Profile</Link>
+                      <Link className="dropdown-item" to="/settings">Settings</Link>
                       <a className="dropdown-item" onClick={this.logout}>Logout</a>
                     </div>
                   </div>
