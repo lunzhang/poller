@@ -1,0 +1,61 @@
+.navbar{
+  margin:0;
+}
+html,body,#app,#app > [data-reactroot]{
+  height:100%;
+}
+.center{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+#login{
+  height:300px;
+}
+.fb_btn{
+  background: #3B5999 url('../imgs/fb_icon.png') no-repeat;
+  padding: 10px 75px 10px 50px;
+  background-size: contain;
+  color:white;
+  width: 50px;
+  cursor: pointer;
+}
+
+#navbar{
+  .nav-item{
+      display:inline-block;
+      &:last-child{
+        padding-right:15px;
+      }
+  }
+  .glyphicon-plus{
+    line-height: 0px;
+    padding-right: 5px;
+    font-size: 18px;
+  }
+  .profile{
+    padding: 7px;
+    .profile-pic{
+      border-radius: 3px;
+      width: 35px;
+      cursor: pointer;
+    }
+    .dropdown-menu{
+        top:96%;
+        padding: 0px;
+        a{
+          display:inline-block;
+          color:black;
+          width: 100%;
+          padding:10px;
+          cursor: pointer;
+          &:hover{
+            text-decoration:none;
+            background-color:#f1f1f1;
+          }
+        }
+    }
+  }
+}
