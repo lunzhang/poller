@@ -1,6 +1,6 @@
 import React from 'react';
 import { combineReducers } from 'redux';
-import { USER_LOGIN } from './actions.js';
+import * as actions from './actions.js';
 
 const initialUser = {
   loggedIn : false
@@ -8,12 +8,18 @@ const initialUser = {
 
 function user(state=initialUser,action){
   switch(action.type){
-    case USER_LOGIN:
+    case actions.USER_LOGIN:
       return Object.assign({}, state, {
         loggedIn: true,
         id:action.value.id,
         name:action.value.name,
+        detail:action.value.detail,
         pictureURL:action.value.pictureURL
+      });
+    case actions.UPDATE_PROFILE:
+      return Object.assign({},state,{
+        name:action.value.name,
+        detail:action.value.detail
       });
   }
   return state;

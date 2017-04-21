@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { userLogin } from '../actions.js';
+import * as actions from '../actions.js';
 
 const mapStateToProps = function(state){
   return {
@@ -28,7 +28,7 @@ class Login extends Component{
     FB.login((resp)=>{
       if(resp.status == "connected"){
           FB.api('/me?fields=name,picture',(resp)=>{
-            this.props.dispatch(userLogin({
+            this.props.dispatch(actions.userLogin({
               id:resp.id,
               name:resp.name,
               pictureURL:resp.picture.data.url

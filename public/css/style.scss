@@ -64,6 +64,12 @@ html,body,#app,#app > [data-reactroot]{
 }
 
 #settings{
+  .input-group{
+    margin-top:20px;
+    h4{
+      margin-top:0px;
+    }
+  }
   textarea{
     resize: none;
     height: 100px;

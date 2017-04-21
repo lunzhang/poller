@@ -14,12 +14,21 @@ module.exports.login = function (req, res) {
       newUser.name = req.body.name;
       newUser.detail = 'I like to vote!'
       newUser.save(function (err) {
-          var data = newUser.toObject();
-          delete data['_id'];
-          delete data['__v'];
-          res.json(JSON.stringify(data));
+        var data = newUser.toObject();
+        delete data['_id'];
+        delete data['__v'];
+        res.json(JSON.stringify(data));
       });
     }
   });
 
+};
+
+module.exports.updateProfile = function(req,res){
+  User.update({id: req.body.id}, { $set:{
+    name: req.body.name,
+    detail: req.body.detail
+  }}, function(err,doc){
+      res.sendStatus(200);
+  });
 };
