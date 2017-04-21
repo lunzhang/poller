@@ -4,12 +4,22 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var path = require('path');
 var port = process.env.PORT || 80;
+var bodyParser = require('body-parser');
+require('./server/db/db');
+var api = require('./server/api/index');
 
-app.use('/public', express.static(__dirname + '/public'));
-app.set('port', (port));
-
-app.get('/*', function(req, res) {
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/api',api);
+app.use('/', express.static(__dirname + '/public'));
+app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
+app.set('port', (port));
 server.listen(port);

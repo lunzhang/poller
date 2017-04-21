@@ -17,7 +17,6 @@ class Settings extends Component{
   }
 
   render(){
-    console.log(this.props);
     return (
     <div id="settings" className="row">
       <div className="col-sm-12">

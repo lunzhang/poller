@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, hashHistory,Redirect } from 'react-router';
 
-import { userLogin, newUser } from './actions.js';
+import { userLogin } from './actions.js';
 import store from './store.js';
 import Main from './components/main.js';
 import Profile from './components/profile.js';
@@ -21,16 +21,13 @@ window.fbAsyncInit = function() {
   FB.getLoginStatus(function(resp) {
     console.log(resp);
     if(resp.status === "connected"){
-      let exist = true;
-      if(exist){
-        FB.api('/me?fields=name,picture',function(resp){
-          store.dispatch(newUser({
-              id:resp.id,
-              name:resp.name,
-              pictureURL:resp.picture.data.url
-          }));
-        });
-      }
+      FB.api('/me?fields=name,picture',function(resp){
+        store.dispatch(userLogin({
+          id:resp.id,
+          name:resp.name,
+          pictureURL:resp.picture.data.url
+        }));
+      });
     }
   });
 };
@@ -46,14 +43,14 @@ window.fbAsyncInit = function() {
 //render app
 render(
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route path="/" component={Main}>
-        <Route path="/u/*" component={Profile} onEnter={authLogin}/>
-        <Route path="/settings" component={Setting} onEnter={authLogin}/>
-        <Route path="/login" component={Login} onEnter={enterLogin}/>
-      </Route>
-      <Redirect from="*" to="/"/>
-    </Router>
+  <Router history={hashHistory}>
+  <Route path="/" component={Main}>
+  <Route path="/u/*" component={Profile} onEnter={authLogin}/>
+  <Route path="/settings" component={Setting} onEnter={authLogin}/>
+  <Route path="/login" component={Login} onEnter={enterLogin}/>
+  </Route>
+  <Redirect from="*" to="/"/>
+  </Router>
   </Provider>,
   document.getElementById('app')
 );
@@ -62,9 +59,9 @@ render(
 function authLogin(nextState,replace){
   let { user } = store.getState();
   if(!user.loggedIn){
-      replace({
-        pathname:'/'
-      });
+    replace({
+      pathname:'/'
+    });
   }
 };
 
@@ -72,8 +69,8 @@ function authLogin(nextState,replace){
 function enterLogin(nextState,replace){
   let { user } = store.getState();
   if(user.loggedIn){
-      replace({
-        pathname:'/'
-      });
+    replace({
+      pathname:'/'
+    });
   }
 };

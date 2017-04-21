@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { newUser } from '../actions.js';
+import { userLogin } from '../actions.js';
 
 const mapStateToProps = function(state){
   return {
@@ -27,17 +27,14 @@ class Login extends Component{
   fbLogin(){
     FB.login((resp)=>{
       if(resp.status == "connected"){
-        let exist = true;
-        if(exist){
           FB.api('/me?fields=name,picture',(resp)=>{
-            this.props.dispatch(newUser({
+            this.props.dispatch(userLogin({
               id:resp.id,
               name:resp.name,
               pictureURL:resp.picture.data.url
             }));
             hashHistory.push('/');
           });
-        }
       }
     });
   }

@@ -1,9 +1,13 @@
 export const USER_LOGIN = 'USER_LOGIN';
-export const NEW_USER = 'NEW_USER';
 
 export function userLogin(value){
-  return {
-    type: USER_LOGIN, value
+  return (dispatch)=>{
+    $.post('http://localhost:80/api/login',value,function(data){
+      Object.assign(value,JSON.parse(data));
+      dispatch({
+        type: USER_LOGIN, value
+      });
+    });
   };
 };
 
@@ -14,9 +18,3 @@ export function userLogout(){
     });
   };
 }
-
-export function newUser(value){
-  return {
-    type: NEW_USER, value
-  };
-};
