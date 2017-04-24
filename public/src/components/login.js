@@ -25,6 +25,7 @@ class Login extends Component{
   }
 
   fbLogin(){
+    this.props.dispatch(actions.isLoading(true));
     FB.login((resp)=>{
       if(resp.status == "connected"){
           FB.api('/me?fields=name,picture',(resp)=>{
@@ -32,8 +33,10 @@ class Login extends Component{
               id:resp.id,
               name:resp.name,
               pictureURL:resp.picture.data.url
-            }));
-            hashHistory.push('/');
+            })).then(()=>{
+                this.props.dispatch(actions.isLoading(false));
+                hashHistory.push('/');
+            });
           });
       }
     });

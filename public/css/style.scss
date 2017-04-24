@@ -22,16 +22,17 @@ html,body,#app,#app > [data-reactroot]{
 .form-control{
   border-radius: 3px !important;
 }
+
 #login{
   height:300px;
 }
 
 #navbar{
   .nav-item{
-      display:inline-block;
-      &:last-child{
-        padding-right:15px;
-      }
+    display:inline-block;
+    &:last-child{
+      padding-right:15px;
+    }
   }
   .glyphicon-plus{
     line-height: 0px;
@@ -46,19 +47,19 @@ html,body,#app,#app > [data-reactroot]{
       cursor: pointer;
     }
     .dropdown-menu{
-        top:96%;
-        padding: 0px;
-        a{
-          display:inline-block;
-          color:black;
-          width: 100%;
-          padding:10px;
-          cursor: pointer;
-          &:hover{
-            text-decoration:none;
-            background-color:#f1f1f1;
-          }
+      top:96%;
+      padding: 0px;
+      a{
+        display:inline-block;
+        color:black;
+        width: 100%;
+        padding:10px;
+        cursor: pointer;
+        &:hover{
+          text-decoration:none;
+          background-color:#f1f1f1;
         }
+      }
     }
   }
 }
@@ -74,5 +75,24 @@ html,body,#app,#app > [data-reactroot]{
     resize: none;
     height: 100px;
     width: 300px;
+  }
+}
+
+#loading-wrapper{
+  position: absolute;
+  top:0px;
+  left:0px;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity:.3;
+  z-index: 999999;
+  #loading-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    font-size: 36px;
   }
 }

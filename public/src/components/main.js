@@ -65,11 +65,20 @@ class Main extends Component{
         <div className="container-fluid" style={{paddingTop:'75px',position:'relative',height:'100%'}}>
           {this.props.children}
         </div>
+        {
+          this.props.user.isLoading &&
+          <div id="loading-wrapper">
+            <div id="loading-content">
+              Loading....
+            </div>
+          </div>
+        }
       </div>
     );
   }
 
   logout(){
+    this.props.dispatch(actions.isLoading(true));
     this.props.dispatch(actions.userLogout());
   }
 };
