@@ -43,14 +43,14 @@ window.fbAsyncInit = function() {
 //render app
 render(
   <Provider store={store}>
-  <Router history={hashHistory}>
-  <Route path="/" component={Main}>
-  <Route path="/u/*" component={Profile} onEnter={authLogin}/>
-  <Route path="/settings" component={Setting} onEnter={authLogin}/>
-  <Route path="/login" component={Login} onEnter={enterLogin}/>
-  </Route>
-  <Redirect from="*" to="/"/>
-  </Router>
+    <Router history={hashHistory}>
+      <Route path="/" component={Main}>
+        <Route path="/u/*" component={Profile} onEnter={authLogin}/>
+        <Route path="/settings" component={Setting} onEnter={authLogin}/>
+        <Route path="/login" component={Login} onEnter={enterLogin}/>
+      </Route>
+      <Redirect from="*" to="/"/>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );

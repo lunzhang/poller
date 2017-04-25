@@ -53,9 +53,7 @@ class Settings extends Component{
             <h4>
               Username
             </h4>
-            <input className="form-control" name="name" value={this.state.name} onChange={this.handleChange}>
-
-            </input>
+            <input className="form-control" name="name" value={this.state.name} onChange={this.handleChange}></input>
           </div>
           <div className="input-group">
             <h4>

@@ -35,3 +35,9 @@ export function isLoading(value){
         type:IS_LOADING, value
     };
 };
+
+export function uploadPoll(poll){
+  return (dispatch)=>{
+      return $.post('http://localhost:80/api/upload_poll',poll);
+  };
+}

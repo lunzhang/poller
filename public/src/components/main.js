@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Router } from 'react-router';
 import * as actions from '../actions.js';
+import Upload from './upload.js';
 
 const mapStateToProps = function(state){
   return {
@@ -21,6 +22,7 @@ class Main extends Component{
   render(){
     return (
       <div id="main">
+
         <nav id="navbar" className="navbar navbar-inverse navbar-fixed-top">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">Poller</Link>
@@ -47,9 +49,8 @@ class Main extends Component{
                   </div>
                 </div>
                 <div className="nav-item">
-                    <button className="btn btn-primary">
-                    <span className="glyphicon glyphicon-plus"></span>
-                    Upload
+                    <button className="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+                    <span className="glyphicon glyphicon-plus"></span>Upload
                     </button>
                 </div>
               </div> :
@@ -62,9 +63,13 @@ class Main extends Component{
             </div>
           </div>
         </nav>
+
         <div className="container-fluid" style={{paddingTop:'75px',position:'relative',height:'100%'}}>
           {this.props.children}
         </div>
+
+        <Upload/>
+
         {
           this.props.user.isLoading &&
           <div id="loading-wrapper">
@@ -73,6 +78,7 @@ class Main extends Component{
             </div>
           </div>
         }
+
       </div>
     );
   }
@@ -81,6 +87,7 @@ class Main extends Component{
     this.props.dispatch(actions.isLoading(true));
     this.props.dispatch(actions.userLogout());
   }
+
 };
 
 export default connect(mapStateToProps)(Main);

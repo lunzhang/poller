@@ -23,6 +23,44 @@ html,body,#app,#app > [data-reactroot]{
   border-radius: 3px !important;
 }
 
+#uploadModal{
+  .modal-title{
+    font-size: 24px;
+    display: inline-block;
+  }
+  .modal-dialog{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-55%) !important;
+  }
+  #poll-options{
+    margin-top: 10px;
+    h4{
+      display: inline-block;
+    }
+    .btn-success,.btn-danger{
+      float: right;
+      margin-right: 10px;
+      font-size: 12px;
+    }
+    .option{
+      padding-top: 8px;
+      height: 38px;
+      box-sizing: content-box;
+      border-bottom: 1px solid #d0d0d0;
+      .form-control{
+        border: none;
+        box-shadow: none;
+      }
+    }
+    .form-control{
+      display: inline-block;
+      width:75%;
+    }
+  }
+}
+
 #login{
   height:300px;
 }
@@ -94,5 +132,13 @@ html,body,#app,#app > [data-reactroot]{
     transform: translate(-50%,-50%);
     color: white;
     font-size: 36px;
+  }
+}
+
+@media (max-width : 768px) {
+  #navbar{
+    .nav-item{
+      float: left;
+    }
   }
 }
