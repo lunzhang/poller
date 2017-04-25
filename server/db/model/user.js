@@ -10,7 +10,7 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  polls: [String],
+  polls: [],
   detail: String
 });
 

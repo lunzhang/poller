@@ -42,3 +42,4 @@ process.on('SIGTERM', function () {
 });
 
 require('./model/user');
+require('./model/poll');

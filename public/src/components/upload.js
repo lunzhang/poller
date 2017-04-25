@@ -19,7 +19,16 @@ class Upload extends Component{
       this.deleteOption = this.deleteOption.bind(this);
       this.state = {
           name:"Do you like Poller?",
-          options:["yes","no"],
+          options:{
+            "yes":{
+              upVotes:0,
+              downVotes:0
+            },
+            "no":{
+              upVotes:0,
+              downVotes:0
+            }
+          },
           option:""
       };
   }
@@ -28,7 +37,16 @@ class Upload extends Component{
     $('#uploadModal').on('show.bs.modal',(e)=>{
       this.setState({
         name:"Do you like Poller?",
-        options:["yes","no"],
+        options:{
+          "yes":{
+            upVotes:0,
+            downVotes:0
+          },
+          "no":{
+            upVotes:0,
+            downVotes:0
+          }
+        },
         option:""
       });
     });
@@ -64,12 +82,12 @@ class Upload extends Component{
                     <h4>Options </h4>
                     <div style={{marginTop:'10px',height:'200px',overflowY:'auto',overflowX:'hidden',border:'1px solid #d0d0d0'}}>
                     {
-                      this.state.options.map((option,i)=>{
+                      Object.keys(this.state.options).map((option,i)=>{
                         return(
                           <div className="option" key={i}>
                             <span className="form-control"> {option} </span>
-                            <button className="btn btn-danger" onClick={this.deleteOption} value={i}>
-                              <span className="glyphicon glyphicon-minus" value={i}> </span>
+                            <button className="btn btn-danger" onClick={this.deleteOption} value={option}>
+                              <span className="glyphicon glyphicon-minus" value={option}> </span>
                             </button>
                           </div>
                         );
@@ -97,24 +115,33 @@ class Upload extends Component{
 
   addOption(e){
     e.preventDefault();
-    if(this.state.options.length < 8 && this.state.option.length > 0) this.setState({'options':this.state.options.concat([this.state.option])});
+    if(Object.keys(this.state.options).length < 8 && this.state.option.length > 0
+    && this.state.options[this.state.option] === undefined){
+      let option = {};
+      option[this.state.option]={
+        upVotes:0,
+        downVotes:0
+      };
+      this.setState({'options': Object.assign({},this.state.options,option)});
+    }
   }
 
   deleteOption(e){
     e.preventDefault();
-    let i = parseInt(e.currentTarget.value);
-    let options = this.state.options;
-    this.setState({'options': options.slice(0,i).concat(options.slice(i+1)) });
+    let options = Object.assign({},this.state.options);
+    let option = e.currentTarget.value;
+    delete options[option];
+    this.setState({'options': options });
   }
 
   upload(){
-      if(this.state.name.length > 0 && this.state.options.length > 0){
-          actions.uploadPoll({
-            owner : this.props.user.id,
-            name : this.state.name,
-            options: this.state.options
-          });
-      }
+    if(this.state.name.length > 0 && Object.keys(this.state.options).length > 0){
+      this.props.dispatch(actions.uploadPoll({
+        name : this.state.name,
+        owner : this.props.user.id,
+        options: this.state.options
+      }));
+    }
   }
 
 }

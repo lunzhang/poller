@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Poll = mongoose.model('Poll');
 
 module.exports.login = function (req, res) {
 
@@ -29,6 +30,20 @@ module.exports.updateProfile = function(req,res){
     name: req.body.name,
     detail: req.body.detail
   }}, function(err,doc){
-      res.sendStatus(200);
+    res.sendStatus(200);
+  });
+};
+
+module.exports.uploadPoll = function(req,res){
+  var newPoll = new Poll();
+  var poll = req.body;
+  newPoll.name = poll.name;
+  newPoll.owner = poll.owner;
+  newPoll.options = poll.options;
+  newPoll.save(function(err){
+    res.json(JSON.stringify(newPoll));
+    User.update({id:newPoll.owner},{$push:{
+      polls: newPoll._id.toString()
+    }},function(){});
   });
 };

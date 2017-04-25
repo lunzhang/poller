@@ -14,7 +14,8 @@ function user(state=initialUser,action){
         id:action.value.id,
         name:action.value.name,
         detail:action.value.detail,
-        pictureURL:action.value.pictureURL
+        pictureURL:action.value.pictureURL,
+        polls:action.value.polls
       });
     case actions.UPDATE_PROFILE:
       return Object.assign({},state,{
@@ -24,6 +25,10 @@ function user(state=initialUser,action){
     case actions.IS_LOADING:
       return Object.assign({},state,{
         isLoading:action.value
+      });
+    case actions.UPLOAD_POLL:
+      return Object.assign({},state,{
+          polls : state.polls.concat(action.value._id)
       });
   }
   return state;
