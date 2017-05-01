@@ -21,13 +21,13 @@ class Wrapper extends Component{
 
   render(){
     return (
-      <div id="main">
+      <div id="wrapper">
 
         <Navbar user={this.props.user} dispatch={this.props.dispatch} />
 
         <Upload user={this.props.user} dispatch={this.props.dispatch} />
 
-        <div className="container-fluid" style={{paddingTop:'75px',position:'relative',height:'100%'}}>
+        <div className="container" style={{paddingTop:'75px',position:'relative',height:'100%'}}>
           {this.props.children}
         </div>
 

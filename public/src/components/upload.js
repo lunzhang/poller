@@ -12,14 +12,8 @@ export default class Upload extends Component{
       this.state = {
           name:"Do you like Poller?",
           options:{
-            "yes":{
-              upVotes:0,
-              downVotes:0
-            },
-            "no":{
-              upVotes:0,
-              downVotes:0
-            }
+            "yes":0,
+            "no":0
           },
           option:""
       };
@@ -30,14 +24,8 @@ export default class Upload extends Component{
       this.setState({
         name:"Do you like Poller?",
         options:{
-          "yes":{
-            upVotes:0,
-            downVotes:0
-          },
-          "no":{
-            upVotes:0,
-            downVotes:0
-          }
+          "yes":0,
+          "no":0
         },
         option:""
       });
@@ -110,10 +98,7 @@ export default class Upload extends Component{
     if(Object.keys(this.state.options).length < 8 && this.state.option.length > 0
     && this.state.options[this.state.option] === undefined){
       let option = {};
-      option[this.state.option]={
-        upVotes:0,
-        downVotes:0
-      };
+      option[this.state.option]=0;
       this.setState({'options': Object.assign({},this.state.options,option)});
     }
   }

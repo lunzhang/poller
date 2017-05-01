@@ -2,11 +2,7 @@ import React from 'react';
 import { combineReducers } from 'redux';
 import * as actions from './actions.js';
 
-const initialUser = {
-  loggedIn : false
-};
-
-function user(state=initialUser,action){
+function user(state={loggedIn : false},action){
   switch(action.type){
     case actions.USER_LOGIN:
       return Object.assign({}, state, {
@@ -35,7 +31,17 @@ function user(state=initialUser,action){
 }
 
 function polls(state = {}, action) {
-  switch (action.type) {
+  switch (action.type){
+      case actions.FETCH_POLLS:
+        let polls = {};
+        action.polls.map((poll,i)=>{
+          polls[poll._id] = poll;
+        });
+        return Object.assign({},state,polls);
+      case actions.VOTE_POLL:
+        let newPoll = {};
+        newPoll[action.poll._id] = action.poll;
+        return Object.assign({},state,newPoll);
   }
   return state;
 }

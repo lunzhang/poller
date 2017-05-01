@@ -135,6 +135,26 @@ html,body,#app,#app > [data-reactroot]{
   }
 }
 
+#main{
+  .poll{
+    height:300px;
+    border: 1px solid black;
+    margin-bottom: 45px;
+    .options-wrapper{
+        overflow-y: auto;
+        margin-bottom: 10px;
+        height: calc(100% - 56px);
+        .options{
+          padding: 0px 10px 10px 10px;
+          height: 54px;
+          button{
+            float:right;
+          }
+        }
+    }
+  }
+}
+
 @media (max-width : 768px) {
   #navbar{
     .nav-item{
