@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import * as actions from '../actions.js';
 
-const mapStateToProps = function(state){
-  return {
-    user : state.user
-  };
-}
-
-class Upload extends Component{
+export default class Upload extends Component{
 
   constructor(props){
       super(props);
@@ -145,5 +137,3 @@ class Upload extends Component{
   }
 
 }
-
-export default connect(mapStateToProps)(Upload);

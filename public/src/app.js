@@ -1,14 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, hashHistory,Redirect } from 'react-router';
+import { Router, Route, hashHistory,Redirect,IndexRoute } from 'react-router';
 
 import { userLogin } from './actions.js';
 import store from './store.js';
-import Main from './components/main.js';
-import Profile from './components/profile.js';
-import Login from './components/login.js';
-import Setting from './components/settings.js';
+import Main from './containers/main.js';
+import Wrapper from './containers/wrapper.js';
+import Profile from './containers/profile.js';
+import Login from './containers/login.js';
+import Setting from './containers/settings.js';
 
 // init Facebook
 window.fbAsyncInit = function() {
@@ -44,8 +45,9 @@ window.fbAsyncInit = function() {
 render(
   <Provider store={store}>
     <Router history={hashHistory}>
-      <Route path="/" component={Main}>
-        <Route path="/u/*" component={Profile} onEnter={authLogin}/>
+      <Route path="/" component={Wrapper}>
+        <IndexRoute component={Main} />
+        <Route path="/u/*" component={Profile} />
         <Route path="/settings" component={Setting} onEnter={authLogin}/>
         <Route path="/login" component={Login} onEnter={enterLogin}/>
       </Route>
