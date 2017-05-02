@@ -42,6 +42,9 @@ function polls(state = {}, action) {
         let newPoll = {};
         newPoll[action.poll._id] = action.poll;
         return Object.assign({},state,newPoll);
+      case actions.DELETE_POLL:
+        delete state[action.poll];
+        return Object.assign({},state);
   }
   return state;
 }

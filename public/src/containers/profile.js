@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Router } from 'react-router';
 import * as actions from '../actions.js';
+import Polls from '../components/polls.js';
 
 const mapStateToProps = function(state){
   return {
@@ -24,8 +25,8 @@ class Profile extends Component{
 
   render(){
     return (
-      <div id="profile">
-        Profile Page
+      <div id="profile" className="row">
+        <Polls polls={this.props.polls} user={this.props.user} dispatch={this.props.dispatch}/>
       </div>
     );
   }

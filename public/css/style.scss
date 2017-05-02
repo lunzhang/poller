@@ -23,7 +23,7 @@ html,body,#app,#app > [data-reactroot]{
   border-radius: 3px !important;
 }
 
-#uploadModal{
+#upload-modal{
   .modal-title{
     font-size: 24px;
     display: inline-block;
@@ -135,23 +135,36 @@ html,body,#app,#app > [data-reactroot]{
   }
 }
 
-#main{
-  .poll{
-    height:300px;
-    border: 1px solid black;
-    margin-bottom: 45px;
-    .options-wrapper{
-        overflow-y: auto;
-        margin-bottom: 10px;
-        height: calc(100% - 56px);
-        .options{
-          padding: 0px 10px 10px 10px;
-          height: 54px;
-          button{
-            float:right;
-          }
-        }
+.poll{
+  height:300px;
+  border: 1px solid black;
+  margin-bottom: 45px;
+  .poll-header{
+    border-bottom: 1px solid black;
+    padding: 0px 10px;
+    h3{
+      display: inline-block;
     }
+    button{
+      position: relative;
+      top:12px;
+      float: right;
+    }
+  }
+  .options-wrapper{
+      overflow-y: auto;
+      margin-bottom: 10px;
+      height: calc(100% - 56px);
+      .options{
+        padding: 0px 10px 10px 10px;
+        height: 54px;
+        &:first-child{
+          padding-top: 10px;
+        }
+        button{
+          float:right;
+        }
+      }
   }
 }
 

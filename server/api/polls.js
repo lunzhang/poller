@@ -21,14 +21,21 @@ module.exports.uploadPoll = function(req,res){
 module.exports.fetchPolls = function(req,res){
     var category = req.query.category;
     if(category === 'user'){
-
+        var id = req.query.id;
+        User.findById(id,function(err){
+          if(err) return console.error(err);
+          Poll.find({owner:id},function(err,polls){
+            if(err) return console.error(err);
+            res.json(JSON.stringify(polls));
+          });
+        });
     }else if(category === 'popular'){
-
+      Poll.find(function(err,polls){
+        if(err) return console.error(err);
+        res.json(JSON.stringify(polls));
+      }).sort({votes:-1}).limit(10);
     }
-    Poll.find(function(err,polls){
-      if(err) return console.error(err);
-      res.json(JSON.stringify(polls));
-    });
+
 };
 
 module.exports.votePoll = function(req,res){
@@ -48,5 +55,26 @@ module.exports.votePoll = function(req,res){
       if(err) return console.error(err);
       res.json(JSON.stringify(newPoll));
     });
+  });
+};
+
+module.exports.deletePoll = function(req,res){
+  var userId = req.body.user;
+  var pollId = req.body.poll;
+  Poll.findById(pollId,function(err,poll){
+    if(err) return console.log(err);
+    if(poll.owner !== null && poll.owner === userId){
+        res.sendStatus(200);
+        poll.remove();
+        User.findById(userId,function(err,user){
+          for(var i = 0;i<user.polls.length;i++){
+            if(user.polls[i] === pollId){
+              user.polls.splice(i,1);
+              break;
+            }
+          }
+          user.save();
+        });
+    }
   });
 };

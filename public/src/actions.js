@@ -4,6 +4,7 @@ export const IS_LOADING = 'IS_LOADING';
 export const UPLOAD_POLL = 'UPLOAD_POLL';
 export const FETCH_POLLS = 'FETCH_POLLS';
 export const VOTE_POLL = 'VOTE_POLL';
+export const DELETE_POLL = 'DELETE_POLL';
 
 const DEFAULT_URL = 'http://localhost:80/api/';
 
@@ -17,6 +18,16 @@ function postJSON(url,data,callback){
         success:callback
     });
 };
+
+function postJSON2(url,data,callback){
+  return $.ajax({
+      type:'POST',
+      url:url,
+      contentType:'application/json; charset=utf-8',
+      data:data,
+      success:callback
+  });
+}
 
 export function userLogin(user){
   return (dispatch)=>{
@@ -34,7 +45,7 @@ export function updateProfile(value){
     dispatch({
       type:UPDATE_PROFILE, value
     });
-    return postJSON(DEFAULT_URL+'update_profile',JSON.stringify(value));
+    return postJSON2(DEFAULT_URL+'update_profile',JSON.stringify(value));
   };
 };
 
@@ -82,5 +93,17 @@ export function votePoll(user,poll,option){
           poll: JSON.parse(newPoll)
       });
     });
-  }
+  };
+};
+
+export function deletePoll(user,poll){
+  return (dispatch)=>{
+    return postJSON2(DEFAULT_URL+'delete_poll',JSON.stringify({user,poll}),()=>{
+      dispatch({
+        type:DELETE_POLL,
+        user,
+        poll
+      });
+    });
+  };
 };

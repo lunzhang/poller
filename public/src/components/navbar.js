@@ -37,7 +37,7 @@ export default class Navbar extends Component{
               </div>
             </div>
             <div className="nav-item">
-              <button className="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+              <button className="btn btn-primary" data-toggle="modal" data-target="#upload-modal">
                 <span className="glyphicon glyphicon-plus"></span>Upload
               </button>
             </div>

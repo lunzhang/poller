@@ -45,7 +45,7 @@ export default class Upload extends Component{
 
   render(){
     return(
-      <div className="modal fade" id="uploadModal" tabIndex="-1" role="dialog" aria-hidden="true">
+      <div className="modal fade" id="upload-modal" tabIndex="-1" role="dialog" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
