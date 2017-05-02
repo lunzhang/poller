@@ -63,9 +63,9 @@ export function uploadPoll(newPoll){
   };
 };
 
-export function fetchPolls(category){
+export function fetchPolls(data){
   return (dispatch)=>{
-    return $.get(DEFAULT_URL+'fetch_polls',category,(polls)=>{
+    return $.get(DEFAULT_URL+'fetch_polls',data,(polls)=>{
         dispatch({
             type:FETCH_POLLS,
             polls: JSON.parse(polls)
@@ -83,4 +83,4 @@ export function votePoll(user,poll,option){
       });
     });
   }
-}
+};

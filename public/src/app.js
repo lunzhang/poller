@@ -24,7 +24,8 @@ window.fbAsyncInit = function() {
     if(resp.status === "connected"){
       FB.api('/me?fields=name,picture',function(resp){
         store.dispatch(userLogin({
-          id:resp.id,
+          fbId:resp.id,
+          type:'FB',
           name:resp.name,
           pictureURL:resp.picture.data.url
         }));

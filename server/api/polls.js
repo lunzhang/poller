@@ -19,6 +19,12 @@ module.exports.uploadPoll = function(req,res){
 };
 
 module.exports.fetchPolls = function(req,res){
+    var category = req.query.category;
+    if(category === 'user'){
+
+    }else if(category === 'popular'){
+
+    }
     Poll.find(function(err,polls){
       if(err) return console.error(err);
       res.json(JSON.stringify(polls));
@@ -30,7 +36,7 @@ module.exports.votePoll = function(req,res){
   var id = req.body.poll;
   var option = req.body.option;
   Poll.findById(id,function(err,poll){
-    if(err) return console.log(err);
+    if(err || poll.options[option] === undefined) return console.log(err);
     if(poll.voters[user] !== undefined){
       poll.options[poll.voters[user]]--;
     }

@@ -7,24 +7,28 @@ import * as actions from '../actions.js';
 
 const mapStateToProps = function(state){
   return {
-    user : state.user
+    user : state.user,
+    polls: state.polls
   };
-}
+};
 
 class Profile extends Component{
 
   constructor(props){
-      super(props);
+    super(props);
+    this.props.dispatch(actions.fetchPolls({
+      id: this.props.routeParams.splat,
+      category:'user'
+    }));
   }
 
   render(){
     return (
-    <div id="profile">
-      Profile Page
-    </div>
+      <div id="profile">
+        Profile Page
+      </div>
     );
   }
-
 
 };
 

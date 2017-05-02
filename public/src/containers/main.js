@@ -19,7 +19,9 @@ class Main extends Component{
     this.state = {
       category : 'popular'
     };
-    this.props.dispatch(actions.fetchPolls(this.state.category));
+    this.props.dispatch(actions.fetchPolls({
+      category:this.state.category
+    }));
   }
 
   render(){

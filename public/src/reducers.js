@@ -7,7 +7,7 @@ function user(state={loggedIn : false},action){
     case actions.USER_LOGIN:
       return Object.assign({}, state, {
         loggedIn: true,
-        id:action.value.id,
+        id:action.value._id,
         name:action.value.name,
         detail:action.value.detail,
         pictureURL:action.value.pictureURL,
