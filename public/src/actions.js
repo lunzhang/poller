@@ -6,7 +6,7 @@ export const FETCH_POLLS = 'FETCH_POLLS';
 export const VOTE_POLL = 'VOTE_POLL';
 export const DELETE_POLL = 'DELETE_POLL';
 
-const DEFAULT_URL = 'http://localhost:80/api/';
+const DEFAULT_URL = 'http://poller-io.herokuapp.com/api/';
 
 function postJSON(url,data,callback){
     return $.ajax({

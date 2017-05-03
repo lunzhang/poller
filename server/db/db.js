@@ -1,5 +1,12 @@
 var mongoose = require('mongoose');
-var dbURI = 'mongodb://localhost/poller';
+var env = process.env.NODE_ENV || 'dev';
+var dbURI;
+
+if(env === 'dev'){
+  dbURI = 'mongodb://localhost/poller';
+}else{
+  dbURI = 'mongodb://lun:lun@ds129281.mlab.com:29281/poller';
+}
 
 mongoose.connect(dbURI);
 

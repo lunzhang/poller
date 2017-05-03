@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var user = require('./user');
 var polls = require('./polls');
 
