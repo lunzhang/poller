@@ -31,7 +31,7 @@ function postJSON2(url,data,callback){
 
 export function userLogin(user){
   return (dispatch)=>{
-    return postJSON(DEFAULT_URL+'login',JSON.stringify(user),function(data){
+    return postJSON(DEFAULT_URL+'login',JSON.stringify(user),(data)=>{
       let value = Object.assign({},user,JSON.parse(data));
       dispatch({
         type: USER_LOGIN, value
