@@ -37,7 +37,7 @@ function polls(state = {}, action) {
         action.polls.map((poll,i)=>{
           polls[poll._id] = poll;
         });
-        return Object.assign({},state,polls);
+        return Object.assign({},polls);
       case actions.VOTE_POLL:
         let newPoll = {};
         newPoll[action.poll._id] = action.poll;

@@ -14,6 +14,9 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  pictureURL:{
+    type:String
+  },
   polls: [],
   detail: String
 });

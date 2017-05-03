@@ -107,3 +107,14 @@ export function deletePoll(user,poll){
     });
   };
 };
+
+export function fetchUser(data){
+  return (dispatch)=>{
+      return $.get(DEFAULT_URL+'fetch_user',data,(data)=>{
+        dispatch({
+            type:FETCH_POLLS,
+            polls: JSON.parse(data).polls
+        });
+      });
+  };
+};

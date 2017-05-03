@@ -10,5 +10,5 @@ router.post('/vote_poll',polls.votePoll);
 router.post('/delete_poll',polls.deletePoll);
 
 router.get('/fetch_polls', polls.fetchPolls);
-
+router.get('/fetch_user', user.fetchUser);
 module.exports = router;

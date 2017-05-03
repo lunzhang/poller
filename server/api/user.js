@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Poll = mongoose.model('Poll');
 
 module.exports.login = function (req, res) {
   if(req.body.type === 'FB'){
@@ -10,6 +11,7 @@ module.exports.login = function (req, res) {
       }
       else {
         var newUser = new User();
+        newUser.pictureURL = req.body.pictureURL;
         newUser.fbId = req.body.fbId;
         newUser.loginType = req.body.type;
         newUser.name = req.body.name;
@@ -29,4 +31,18 @@ module.exports.updateProfile = function(req,res){
   }}, function(err,doc){
     res.sendStatus(200);
   });
+};
+
+module.exports.fetchUser = function(req,res){
+    var id = req.query.id;
+    User.findById(id,function(err,user){
+        if(err) return console.error(err);
+        Poll.find({owner:id},function(err,polls){
+          if(err) return console.error(err);
+          res.json(JSON.stringify({
+            user:user,
+            polls:polls
+          }));
+        });
+    });
 };

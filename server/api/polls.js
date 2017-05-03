@@ -22,7 +22,7 @@ module.exports.fetchPolls = function(req,res){
     var category = req.query.category;
     if(category === 'user'){
         var id = req.query.id;
-        User.findById(id,function(err){
+        User.findById(id,function(err,user){
           if(err) return console.error(err);
           Poll.find({owner:id},function(err,polls){
             if(err) return console.error(err);

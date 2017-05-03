@@ -1264,6 +1264,7 @@ exports.uploadPoll = uploadPoll;
 exports.fetchPolls = fetchPolls;
 exports.votePoll = votePoll;
 exports.deletePoll = deletePoll;
+exports.fetchUser = fetchUser;
 var USER_LOGIN = exports.USER_LOGIN = 'USER_LOGIN';
 var UPDATE_PROFILE = exports.UPDATE_PROFILE = 'UPDATE_PROFILE';
 var IS_LOADING = exports.IS_LOADING = 'IS_LOADING';
@@ -1369,6 +1370,17 @@ function deletePoll(user, poll) {
         type: DELETE_POLL,
         user: user,
         poll: poll
+      });
+    });
+  };
+};
+
+function fetchUser(data) {
+  return function (dispatch) {
+    return $.get(DEFAULT_URL + 'fetch_user', data, function (data) {
+      dispatch({
+        type: FETCH_POLLS,
+        polls: JSON.parse(data).polls
       });
     });
   };
@@ -13163,7 +13175,8 @@ var Login = function (_Component) {
         if (resp.status == "connected") {
           FB.api('/me?fields=name,picture', function (resp) {
             _this2.props.dispatch(actions.userLogin({
-              id: resp.id,
+              fbId: resp.id,
+              type: 'FB',
               name: resp.name,
               pictureURL: resp.picture.data.url
             })).then(function () {
@@ -13171,6 +13184,8 @@ var Login = function (_Component) {
               _reactRouter.hashHistory.push('/');
             });
           });
+        } else {
+          _this2.props.dispatch(actions.isLoading(false));
         }
       });
     }
@@ -13347,10 +13362,17 @@ var Profile = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this, props));
 
-    _this.props.dispatch(actions.fetchPolls({
-      id: _this.props.routeParams.splat,
-      category: 'user'
-    }));
+    _this.state = {
+      user: {}
+    };
+    _this.props.dispatch(actions.fetchUser({
+      id: _this.props.routeParams.splat
+    })).then(function (data) {
+      data = JSON.parse(data);
+      _this.setState({
+        user: data.user
+      });
+    });
     return _this;
   }
 
@@ -13360,6 +13382,25 @@ var Profile = function (_Component) {
       return _react2.default.createElement(
         'div',
         { id: 'profile', className: 'row' },
+        _react2.default.createElement(
+          'div',
+          { className: 'col-sm-12' },
+          _react2.default.createElement('img', { src: this.state.user.pictureURL }),
+          _react2.default.createElement(
+            'h1',
+            null,
+            this.state.user.name
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'col-sm-12' },
+          _react2.default.createElement(
+            'h4',
+            null,
+            this.state.user.detail
+          )
+        ),
         _react2.default.createElement(_polls2.default, { polls: this.props.polls, user: this.props.user, dispatch: this.props.dispatch })
       );
     }
@@ -14208,7 +14249,7 @@ function polls() {
       action.polls.map(function (poll, i) {
         _polls[poll._id] = poll;
       });
-      return Object.assign({}, state, _polls);
+      return Object.assign({}, _polls);
     case actions.VOTE_POLL:
       var newPoll = {};
       newPoll[action.poll._id] = action.poll;

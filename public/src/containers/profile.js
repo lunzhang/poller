@@ -17,15 +17,33 @@ class Profile extends Component{
 
   constructor(props){
     super(props);
-    this.props.dispatch(actions.fetchPolls({
-      id: this.props.routeParams.splat,
-      category:'user'
-    }));
+    this.state = {
+        user:{}
+    };
+    this.props.dispatch(actions.fetchUser({
+        id:this.props.routeParams.splat
+    })).then((data)=>{
+      data = JSON.parse(data);
+      this.setState({
+        user:data.user
+      });
+    });
   }
 
   render(){
     return (
       <div id="profile" className="row">
+        <div className="col-sm-12">
+          <img src={this.state.user.pictureURL}/>
+          <h1>
+            {this.state.user.name}
+          </h1>
+        </div>
+        <div className="col-sm-12">
+          <h4>
+            {this.state.user.detail}
+          </h4>
+        </div>
         <Polls polls={this.props.polls} user={this.props.user} dispatch={this.props.dispatch}/>
       </div>
     );

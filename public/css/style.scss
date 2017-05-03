@@ -62,7 +62,23 @@ html,body,#app,#app > [data-reactroot]{
 }
 
 #login{
-  
+
+}
+
+#profile{
+  img{
+    border-radius: 5px;
+  }
+  h1{
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    top: 10px;
+    padding-left: 10px;
+  }
+  h4{
+    font-style: italic;
+  }
 }
 
 #navbar{
