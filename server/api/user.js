@@ -36,9 +36,9 @@ module.exports.updateProfile = function(req,res){
 module.exports.fetchUser = function(req,res){
     var id = req.query.id;
     User.findById(id,function(err,user){
-        if(err) return console.error(err);
+        if(err) return res.sendStatus('400');
         Poll.find({owner:id},function(err,polls){
-          if(err) return console.error(err);
+          if(err) return res.sendStatus('400');
           res.json(JSON.stringify({
             user:user,
             polls:polls

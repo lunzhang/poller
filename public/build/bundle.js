@@ -14169,11 +14169,16 @@ var Upload = function (_Component) {
     key: 'upload',
     value: function upload() {
       if (this.state.name.length > 0 && Object.keys(this.state.options).length > 0) {
-        this.props.dispatch(actions.uploadPoll({
-          name: this.state.name,
-          owner: this.props.user.id,
-          options: this.state.options
-        }));
+        var timeNow = Date.now();
+        if (this.props.user.lastPoll + 36000000 < timeNow) {
+          this.props.dispatch(actions.uploadPoll({
+            name: this.state.name,
+            owner: this.props.user.id,
+            options: this.state.options
+          }));
+        } else {
+          alert('You can only upload once per hour.  Last upload was ' + new Date(timeNow));
+        }
       }
     }
   }]);

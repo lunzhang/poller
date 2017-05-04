@@ -9,12 +9,17 @@ module.exports.uploadPoll = function(req,res){
   newPoll.owner = poll.owner;
   newPoll.options = poll.options;
   newPoll.voters = {};
-  newPoll.save(function(err){
-    if(err) return console.log(err);
-    res.json(JSON.stringify(newPoll));
-    User.findByIdAndUpdate(newPoll.owner,{$push:{
-      polls: newPoll._id.toString()
-    }},function(){});
+  User.findById(poll.owner,function(err,user){
+    if(err) return res.sendStatus('400');
+    var date = user.lastPoll;
+    var timeNow = Date.now();
+    if(date === undefined || date + 36000000 < timeNow){
+      newPoll.save();
+      user.lastPoll = timeNow;
+      user.polls.push(newPoll._id.toString());
+      user.save();
+      res.json(JSON.stringify(newPoll));
+    }
   });
 };
 
@@ -23,15 +28,15 @@ module.exports.fetchPolls = function(req,res){
     if(category === 'user'){
         var id = req.query.id;
         User.findById(id,function(err,user){
-          if(err) return console.error(err);
+          if(err) return res.sendStatus('400');
           Poll.find({owner:id},function(err,polls){
-            if(err) return console.error(err);
+            if(err) return res.sendStatus('400');
             res.json(JSON.stringify(polls));
           });
         });
     }else if(category === 'popular'){
       Poll.find(function(err,polls){
-        if(err) return console.error(err);
+        if(err) return res.sendStatus('400');
         res.json(JSON.stringify(polls));
       }).sort({votes:-1}).limit(10);
     }
@@ -52,7 +57,7 @@ module.exports.votePoll = function(req,res){
     poll.markModified('voters');
     poll.markModified('options');
     poll.save(function(err,newPoll){
-      if(err) return console.error(err);
+      if(err) return res.sendStatus('400');
       res.json(JSON.stringify(newPoll));
     });
   });

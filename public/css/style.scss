@@ -3,6 +3,7 @@ html,body,#app,#app > [data-reactroot]{
 }
 
 .navbar{
+  background-color: black;
   margin:0;
 }
 .center{
@@ -61,10 +62,6 @@ html,body,#app,#app > [data-reactroot]{
   }
 }
 
-#login{
-
-}
-
 #profile{
   img{
     border-radius: 5px;
@@ -116,6 +113,9 @@ html,body,#app,#app > [data-reactroot]{
       }
     }
   }
+  .btn-primary{
+    width: 100px;
+  }
 }
 
 #settings{
@@ -160,6 +160,7 @@ html,body,#app,#app > [data-reactroot]{
     padding: 0px 10px;
     h3{
       display: inline-block;
+      font-weight: bold;
     }
     button{
       position: relative;
