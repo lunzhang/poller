@@ -19,7 +19,10 @@ var pollSchema = new mongoose.Schema({
   },
   voters:{
     /**
-    * user id : option name
+    * user id : {
+    *   user : user name,
+    *   option: option name
+    * }
     **/
     type: mongoose.Schema.Types.Mixed,
     default:{}

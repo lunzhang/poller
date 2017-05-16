@@ -151,6 +151,21 @@ html,body,#app,#app > [data-reactroot]{
   }
 }
 
+#poll-voters-modal{
+  .modal-body{
+    height: 350px;
+    overflow: auto;
+  }
+}
+
+.clickable{
+  color: #337ab7;
+  cursor: pointer;
+  &:hover,&:focus{
+    color: #23527c;
+  }
+}
+
 .poll{
   height:300px;
   border: 1px solid black;
@@ -181,6 +196,9 @@ html,body,#app,#app > [data-reactroot]{
         button{
           float:right;
         }
+      }
+      .selected-option{
+
       }
   }
 }

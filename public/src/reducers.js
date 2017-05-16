@@ -7,11 +7,13 @@ function user(state={loggedIn : false},action){
     case actions.USER_LOGIN:
       return Object.assign({}, state, {
         loggedIn: true,
+        loginType:action.value.loginType,
         id:action.value._id,
         name:action.value.name,
         detail:action.value.detail,
         pictureURL:action.value.pictureURL,
-        polls:action.value.polls
+        polls:action.value.polls,
+        lastPoll:action.value.lastPoll
       });
     case actions.UPDATE_PROFILE:
       return Object.assign({},state,{

@@ -1299,7 +1299,7 @@ function postJSON2(url, data, callback) {
 function userLogin(user) {
   return function (dispatch) {
     return postJSON(DEFAULT_URL + 'login', JSON.stringify(user), function (data) {
-      var value = Object.assign({}, user, JSON.parse(data));
+      var value = Object.assign({}, JSON.parse(data));
       dispatch({
         type: USER_LOGIN, value: value
       });
@@ -1352,9 +1352,9 @@ function fetchPolls(data) {
   };
 };
 
-function votePoll(user, poll, option) {
+function votePoll(user, name, poll, option) {
   return function (dispatch) {
-    return postJSON(DEFAULT_URL + 'vote_poll', JSON.stringify({ user: user, poll: poll, option: option }), function (newPoll) {
+    return postJSON(DEFAULT_URL + 'vote_poll', JSON.stringify({ user: user, name: name, poll: poll, option: option }), function (newPoll) {
       dispatch({
         type: VOTE_POLL,
         poll: JSON.parse(newPoll)
@@ -8687,7 +8687,11 @@ var Polls = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Polls.__proto__ || Object.getPrototypeOf(Polls)).call(this, props));
 
     _this.deletePoll = _this.deletePoll.bind(_this);
+    _this.closeVotersModal = _this.closeVotersModal.bind(_this);
     _this.selectedPoll = '';
+    _this.state = {
+      voters: {}
+    };
     return _this;
   }
 
@@ -8729,11 +8733,15 @@ var Polls = function (_Component) {
                 'div',
                 { className: 'poll-header' },
                 _react2.default.createElement(
-                  'h3',
-                  null,
-                  ' ',
-                  poll.name,
-                  ' '
+                  _reactRouter.Link,
+                  { to: "/u/" + poll.owner },
+                  _react2.default.createElement(
+                    'h3',
+                    null,
+                    ' ',
+                    poll.name,
+                    ' '
+                  )
                 ),
                 poll.owner === _this3.props.user.id && _react2.default.createElement(
                   'button',
@@ -8747,17 +8755,18 @@ var Polls = function (_Component) {
                 options.map(function (option, i) {
                   return _react2.default.createElement(
                     'div',
-                    { key: i, className: 'options' },
+                    { key: i, className: "options " + (poll.voters[_this3.props.user.id] != undefined && poll.voters[_this3.props.user.id].option == option.name ? "selected-option" : "") },
                     _react2.default.createElement(
                       'span',
-                      { style: { lineHeight: '30px' } },
-                      ' ',
-                      option.name,
-                      ' '
+                      { onClick: function onClick() {
+                          _this3.setVoters(poll, option.name);
+                        }, value: option.name, className: 'clickable', style: { lineHeight: '30px' }, 'data-toggle': 'modal', 'data-target': '#poll-voters-modal' },
+                      option.name
                     ),
                     _react2.default.createElement(
                       'button',
-                      { className: 'btn btn-primary', onClick: function onClick() {
+                      { className: "btn " + (poll.voters[_this3.props.user.id] != undefined && poll.voters[_this3.props.user.id].option == option.name ? "btn-warning" : "btn-primary"),
+                        onClick: function onClick() {
                           _this3.votePoll(poll._id, option.name);
                         } },
                       option.votes
@@ -8815,8 +8824,76 @@ var Polls = function (_Component) {
               )
             )
           )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal fade', id: 'poll-voters-modal', tabIndex: '-1', role: 'dialog', 'aria-hidden': 'true' },
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-dialog', role: 'document' },
+            _react2.default.createElement(
+              'div',
+              { className: 'modal-content' },
+              _react2.default.createElement(
+                'div',
+                { className: 'modal-header' },
+                _react2.default.createElement(
+                  'button',
+                  { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
+                  _react2.default.createElement(
+                    'span',
+                    { 'aria-hidden': 'true' },
+                    '\xD7'
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'modal-body' },
+                Object.keys(this.state.voters).map(function (id, i) {
+                  var voter = _this3.state.voters[id];
+                  return _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: "/u/" + id, key: i, onClick: _this3.closeVotersModal },
+                    _react2.default.createElement(
+                      'h5',
+                      null,
+                      ' ',
+                      voter.name,
+                      ' '
+                    )
+                  );
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'modal-footer' },
+                _react2.default.createElement(
+                  'button',
+                  { type: 'button', className: 'btn btn-secondary', 'data-dismiss': 'modal' },
+                  'Close'
+                )
+              )
+            )
+          )
         )
       );
+    }
+  }, {
+    key: 'closeVotersModal',
+    value: function closeVotersModal() {
+      $('#poll-voters-modal').modal('hide');
+    }
+  }, {
+    key: 'setVoters',
+    value: function setVoters(poll, option) {
+      var voters = {};
+      for (var prop in poll.voters) {
+        if (poll.voters[prop].option === option) {
+          voters[prop] = poll.voters[prop];
+        }
+      }
+      this.setState({ voters: voters });
     }
   }, {
     key: 'deletePoll',
@@ -8829,7 +8906,7 @@ var Polls = function (_Component) {
       if (this.props.user.loggedIn === false) {
         _reactRouter.hashHistory.push('/login');
       } else {
-        this.props.dispatch(actions.votePoll(this.props.user.id, poll, option));
+        this.props.dispatch(actions.votePoll(this.props.user.id, this.props.user.name, poll, option));
       }
     }
   }]);
@@ -14170,14 +14247,15 @@ var Upload = function (_Component) {
     value: function upload() {
       if (this.state.name.length > 0 && Object.keys(this.state.options).length > 0) {
         var timeNow = Date.now();
-        if (this.props.user.lastPoll + 36000000 < timeNow) {
+        var lastPoll = new Date(this.props.user.lastPoll);
+        if (lastPoll.getTime() + 36000000 < timeNow) {
           this.props.dispatch(actions.uploadPoll({
             name: this.state.name,
             owner: this.props.user.id,
             options: this.state.options
           }));
         } else {
-          alert('You can only upload once per hour.  Last upload was ' + new Date(timeNow));
+          alert('You can only upload once per hour.  Last upload was ' + new Date(this.props.user.lastPoll));
         }
       }
     }
@@ -14221,11 +14299,13 @@ function user() {
     case actions.USER_LOGIN:
       return Object.assign({}, state, {
         loggedIn: true,
+        loginType: action.value.loginType,
         id: action.value._id,
         name: action.value.name,
         detail: action.value.detail,
         pictureURL: action.value.pictureURL,
-        polls: action.value.polls
+        polls: action.value.polls,
+        lastPoll: action.value.lastPoll
       });
     case actions.UPDATE_PROFILE:
       return Object.assign({}, state, {

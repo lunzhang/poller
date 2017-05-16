@@ -11,9 +11,9 @@ module.exports.uploadPoll = function(req,res){
   newPoll.voters = {};
   User.findById(poll.owner,function(err,user){
     if(err) return res.sendStatus('400');
-    var date = user.lastPoll;
+    var lastPoll = new Date(user.lastPoll);
     var timeNow = Date.now();
-    if(date === undefined || date + 36000000 < timeNow){
+    if(user.lastPoll === undefined || lastPoll.getDate() + 36000000 < timeNow){
       newPoll.save();
       user.lastPoll = timeNow;
       user.polls.push(newPoll._id.toString());
@@ -44,15 +44,18 @@ module.exports.fetchPolls = function(req,res){
 };
 
 module.exports.votePoll = function(req,res){
+  var name = req.body.name;
   var user = req.body.user;
   var id = req.body.poll;
   var option = req.body.option;
   Poll.findById(id,function(err,poll){
     if(err || poll.options[option] === undefined) return console.log(err);
     if(poll.voters[user] !== undefined){
-      poll.options[poll.voters[user]]--;
+      poll.options[poll.voters[user].option]--;
     }
-    poll.voters[user] = option;
+    poll.voters[user] = {};
+    poll.voters[user].name = name;
+    poll.voters[user].option = option;
     poll.options[option]++;
     poll.markModified('voters');
     poll.markModified('options');

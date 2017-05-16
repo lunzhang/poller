@@ -32,7 +32,7 @@ function postJSON2(url,data,callback){
 export function userLogin(user){
   return (dispatch)=>{
     return postJSON(DEFAULT_URL+'login',JSON.stringify(user),(data)=>{
-      let value = Object.assign({},user,JSON.parse(data));
+      let value = Object.assign({},JSON.parse(data));
       dispatch({
         type: USER_LOGIN, value
       });
@@ -85,9 +85,9 @@ export function fetchPolls(data){
   };
 };
 
-export function votePoll(user,poll,option){
+export function votePoll(user,name,poll,option){
   return (dispatch)=>{
-    return postJSON(DEFAULT_URL+'vote_poll',JSON.stringify({user,poll,option}),(newPoll)=>{
+    return postJSON(DEFAULT_URL+'vote_poll',JSON.stringify({user,name,poll,option}),(newPoll)=>{
       dispatch({
           type:VOTE_POLL,
           poll: JSON.parse(newPoll)
