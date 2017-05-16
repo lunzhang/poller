@@ -115,7 +115,7 @@ export default class Upload extends Component{
     if(this.state.name.length > 0 && Object.keys(this.state.options).length > 0){
       let timeNow = Date.now();
       let lastPoll = new Date(this.props.user.lastPoll);
-      if(lastPoll.getTime() + 36000000 < timeNow){
+      if(this.props.user.lastPoll === undefined || lastPoll.getTime() + 36000000 < timeNow){
         this.props.dispatch(actions.uploadPoll({
           name : this.state.name,
           owner : this.props.user.id,

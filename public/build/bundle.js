@@ -14248,7 +14248,7 @@ var Upload = function (_Component) {
       if (this.state.name.length > 0 && Object.keys(this.state.options).length > 0) {
         var timeNow = Date.now();
         var lastPoll = new Date(this.props.user.lastPoll);
-        if (lastPoll.getTime() + 36000000 < timeNow) {
+        if (this.props.user.lastPoll === undefined || lastPoll.getTime() + 36000000 < timeNow) {
           this.props.dispatch(actions.uploadPoll({
             name: this.state.name,
             owner: this.props.user.id,
@@ -14318,6 +14318,7 @@ function user() {
       });
     case actions.UPLOAD_POLL:
       return Object.assign({}, state, {
+        lastPoll: Date.now(),
         polls: state.polls.concat(action.value._id)
       });
   }

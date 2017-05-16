@@ -26,6 +26,7 @@ function user(state={loggedIn : false},action){
       });
     case actions.UPLOAD_POLL:
       return Object.assign({},state,{
+          lastPoll : Date.now(),
           polls : state.polls.concat(action.value._id)
       });
   }
